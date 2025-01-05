@@ -61,9 +61,8 @@ const Rootheader = () => {
   const dispatch = useDispatch()
   const authUserData = useSelector((state: RootState) => state.auth.authUser) as UserType
   const authData = useSelector((state: RootState) => state.auth.authData) as AuthDataType
-  console.log(authData,'authData')
   const { data: session, status: sessionStatus } = useSession();
-console.log(sessionStatus,'sessionStatus')
+console.log(sessionStatus,'sessionStatus============')
   const handelLogout = () => {
     dispatch(setAuth({}))
     dispatch(setAuthUser({}))
@@ -105,7 +104,6 @@ console.log(sessionStatus,'sessionStatus')
 
   const handleLinkClick = (e: React.MouseEvent) => {
     e.preventDefault();
-
     if (sessionStatus === 'authenticated') {
       router.push('/orders'); 
     } else {
@@ -117,7 +115,6 @@ console.log(sessionStatus,'sessionStatus')
 
   useEffect(() => {
     if (searchTerm.length === 0) {
-      console.log('first')
       clearState(); // Call your clearState function when searchTerm is empty
     }
   }, [searchTerm]);
