@@ -3,7 +3,6 @@
 import { settings, ShuffledData, successMessage } from '@/components/common/commonFunction';
 import CardLoading from '@/components/landingPage/product/cardLoading';
 import NodataFound from '@/components/productFilter/nodataFound';
-import SliderImages from '@/components/sliderImage';
 import { setAddProducts } from '@/reducer/cartReducer';
 import { getProductById, GetRelatedProduct, GetSearchProduct } from '@/service/allApi';
 import Link from 'next/link';
@@ -68,7 +67,6 @@ const ProductDetails = ({ params }: ProductParams) => {
 
       <div className="  p-4 flex flex-col md:flex-row justify-between  md:gap-40 shadow-sm border border-slate-100 bg-primary rounded-md h-auto">
         <div >
-          <SliderImages image={product?.image} />
 
         </div>
         <div className='pt-8'>
