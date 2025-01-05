@@ -3,7 +3,6 @@
 import { settings, ShuffledData, successMessage } from '@/components/common/commonFunction';
 import CardLoading from '@/components/landingPage/product/cardLoading';
 import NodataFound from '@/components/productFilter/nodataFound';
-import SliderImages from '@/components/sliderImage';
 import { setAddProducts } from '@/reducer/cartReducer';
 import { getProductById, GetRelatedProduct, GetSearchProduct, getShopsById } from '@/service/allApi';
 import Image from 'next/image';
