@@ -2,8 +2,8 @@ import React from 'react'
 
 const CommonDetails = () => {
   return (
-         <div className=' h-auto   px-20 py-10 mt-20  bg-[#f3eaea]'>
-        <div className='flex justify-between flex-col md:flex-row'>
+         <div className=' h-auto px-4  md:px-20 py-10 mt-20  bg-[#f3eaea]'>
+        <div className='flex justify-between flex-row'>
           <p className='font-semibold text-3xl text-[#E10102]'>Ecom</p>
           <p className='font-semibold text-2xl '><a href="#" className="inline-flex items-center justify-center h-8 w-8 border border-[#E10102] rounded-md mr-1 hover:text-blue-400 hover:border-blue-400">
             <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">

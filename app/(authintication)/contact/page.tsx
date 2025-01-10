@@ -13,9 +13,7 @@ const page = () => {
   const { TextArea } = Input;
   const [form] = Form.useForm();
 
-
   const onFinish = async (values: any) => {
-
     try {
       const response = await createMyContact(values);
       if (response?.data?.isSuccess) {
@@ -30,17 +28,18 @@ const page = () => {
 
   return (
     <div >
-      <div className='bg-[#E10102] w-full h-[300px] flex justify-between mx-auto px-20 pt-[10%] flex-col md:flex-row'>
+      <div className='bg-[#E10102] w-full h-[150px] md:h-[300px] flex justify-between mx-auto px-20 pt-[10%] flex-col md:flex-row'>
         <div className='text-white text-4xl'>contact us</div>
-        <div className='text-white text-4xl flex justify-start gap-4'>
+        <div className='text-white text-4xl flex justify-start gap-4 pb-4'>
           <FaPhoneVolume />
           <IoMdMail />
           <FaHeadphonesSimple />
         </div>
 
       </div>
-      <div className='flex justify-between flex-col md:flex-row  px-20 mt-20 gap-10'>
-        <div className='flex justify-center items-center mx-auto gap-8  w-1/2'>
+
+      <div className='flex justify-between flex-col md:flex-row px-4 md:px-20 mt-20 gap-10'>
+        <div className='flex justify-center items-center mx-auto gap-2 md:gap-8 w-full  md:w-1/2'>
           <div className=''>
             <TiHomeOutline className='flex justify-center items-center h-[30px] w-[30px] text-[#E10102]' />
             <p className='font-semibold text-xl'>
@@ -58,7 +57,9 @@ const page = () => {
 
 
         </div>
-        <div className="flex flex-col px-4 py-5 w-1/2 bg-primary shadow-md border border-gray-100 h-auto rounded-md">
+
+
+        <div className="flex flex-col px-4 py-5 w-full md:w-1/2 bg-primary shadow-md border border-gray-100 h-auto rounded-md">
           <p className='text-2xl font-semibold'>How can we help you</p>
           <p className='text-md'>Please send your feedback or any query.</p>
           <Form onFinish={onFinish} id="reset-form" form={form}>
