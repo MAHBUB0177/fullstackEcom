@@ -20,7 +20,7 @@ const RootFooter = () => {
                       <circle cx="369" cy="286" r="40" fill="#2962FF"></circle>
                     </g>
                     <text fill="white" fontFamily="Nunito-Bold, Nunito" fontSize="512" fontWeight="bold">
-                      <tspan x="654" y="518">Tailwindow</tspan>
+                      <tspan x="654" y="518">E-com</tspan>
                     </text>
                   </g>
                 </g>
@@ -100,10 +100,10 @@ const RootFooter = () => {
           <div className="px-4 w-full text-center sm:w-auto sm:text-left">
             Copyright © 2020
             - 2024
-            Tailwindow. All Rights Reserved.
+            Ecom. All Rights Reserved.
           </div>
           <div className="px-4 w-full text-center sm:w-auto sm:text-left">
-            Made with ❤️ by Tailwindow.
+            Made with ❤️ by Ecom.
           </div>
         </div>
       </div>
