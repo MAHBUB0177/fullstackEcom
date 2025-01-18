@@ -1,10 +1,10 @@
 'use client'
-import { errorMessage } from '@/components/common/commonFunction';
+import { errorMessage, successMessage } from '@/components/common/commonFunction';
 import NodataFound from '@/components/productFilter/nodataFound';
 import { setAddProducts, setCheckoutItem, setDicrementProduct, setEmptyCart, setRemoveProduct } from '@/reducer/cartReducer';
 import { getOrderInfo } from '@/service/allApi';
 import { RootState } from '@/store';
-import { Button, Checkbox } from 'antd';
+import { Button, Checkbox, message, Popconfirm, PopconfirmProps } from 'antd';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { CiLocationOn } from 'react-icons/ci';
@@ -12,20 +12,17 @@ import { RiDeleteBin6Line } from 'react-icons/ri';
 import { TbCoinTakaFilled, TbCurrencyTaka } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 
-
-
 type orderType = {
-  userId:string,
-  name:string,
-  phoneNumber:Number,
-  houseNo:string,
-  address:string
-  }
-  
+  userId: string,
+  name: string,
+  phoneNumber: Number,
+  houseNo: string,
+  address: string
+}
 
 const OrderCreate = () => {
   const authUserData = useSelector((state: RootState) => state.auth.authUser)
-  const router=useRouter()
+  const router = useRouter()
   const dispatch = useDispatch()
   const cartList = useSelector((state: RootState) => state.cart.addProducts)
 
@@ -36,11 +33,11 @@ const OrderCreate = () => {
   const [shipping, setShipping] = useState(0);
   const [select, setSelect] = useState(false)
 
-  
+
   const handleSelectAllChange = (e: any) => {
     const isChecked = e.target.checked;
     setSelectAll(isChecked);
-    
+
     if (isChecked) {
       // If "Select All" is checked, select all item objects
       setSelectedItems(cartList);
@@ -48,7 +45,7 @@ const OrderCreate = () => {
       // If unchecked, clear the selected items
       setSelectedItems([]);
     }
-}
+  }
 
   const handleSelectItemChange = (item: any) => {
     let updatedSelectedItems = [...selectedItems];
@@ -86,66 +83,78 @@ const OrderCreate = () => {
     dispatch(setDicrementProduct(item))
   }
 
- useEffect(()=>{
-  const result = cartList.filter(cart =>
-    selectedItems.some(selecteditem => selecteditem._id === cart._id)
-  );
-  setSelectedItems(result)
- },[cartList])
-  
+  useEffect(() => {
+    const result = cartList.filter(cart =>
+      selectedItems.some(selecteditem => selecteditem._id === cart._id)
+    );
+    setSelectedItems(result)
+  }, [cartList])
+
   useEffect(() => {
     // Calculate Subtotal
     let subtotal = selectedItems.reduce((total, item) => {
-      return total +  item.totalPrice;
+      return total + item.totalPrice;
     }, 0);
     let shippingFee = selectedItems.reduce((total, item) => {
       return total + item.qnty * 30;// Example: $10 per quantity of the item, adjust as per your logic
     }, 0);
-  
+
     let totalQntity = selectedItems.reduce((total, item) => {
-      return total + item.qnty ;
+      return total + item.qnty;
     }, 0);
     // Update state with calculated values
     setSubtotal(subtotal);
     setShipping(shippingFee);
     settotalQntity(totalQntity)
-  }, [selectedItems,cartList]);
-  
-  const removeCart=()=>{
-    if(selectAll){
+  }, [selectedItems, cartList]);
+
+  const removeCart = () => {
+    if (selectAll) {
       dispatch(setEmptyCart())
-    }else{
+    return  successMessage('Products Is Removed From The Cart')
+    } else {
       return errorMessage('Please Select Item.')
     }
   }
 
-  const handelNavigate=()=>{
-    if(selectedItems.length > 0){
+  const handelNavigate = () => {
+    if (selectedItems.length > 0) {
       dispatch(setCheckoutItem(selectedItems))
       router.push('/shipping')
-    }else{
+    } else {
       return errorMessage('Please Select Item.')
     }
   }
 
 
-  const[orderInfo,setOrderInfo]=useState<orderType | null>(null);
-      const getOrderallInfo = async () => {
-        try {
-          const response = await getOrderInfo();
-          if (response?.data?.isSuccess) {
-            setOrderInfo(response.data.item);
-          }
-          
-        } catch (error) {
-          console.error('Error fetching user info:', error);
-        }
-      };
+  const [orderInfo, setOrderInfo] = useState<orderType | null>(null);
+  const getOrderallInfo = async () => {
+    try {
+      const response = await getOrderInfo();
+      if (response?.data?.isSuccess) {
+        setOrderInfo(response.data.item);
+      }
+
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    }
+  };
 
 
-useEffect(()=>{
-  getOrderallInfo()
-},[])
+  useEffect(() => {
+    getOrderallInfo()
+  }, [])
+
+  const confirm = (e?: React.MouseEvent<HTMLElement>, item?: any) => {
+    if (item) {
+      removeProductToCart(item);
+    }else{
+      removeCart()
+    }
+  };
+
+  const cancel: PopconfirmProps['onCancel'] = (e) => {
+  };
   return (
     <div className='mx-4 lg:mx-20 mt-8 '>
       {
@@ -166,10 +175,24 @@ useEffect(()=>{
                     Select All ({cartList?.length} items)
                   </Checkbox>
                 </div>
-                <div className='flex justify-start gap-1 text-textprimary text-sm cursor-pointer hover:text-red-500'  onClick={() => removeCart()}>
-                  <RiDeleteBin6Line className='h-[20px] w-[20px]' />
-                  <p> DELETE </p>
-                </div>
+                <Popconfirm
+                        title={<span className="text-lg">Delete the Item</span>}
+                        description={
+                          <span className="text-lg">
+                            Are you sure to delete this Item?
+                          </span>
+                        }
+                        onConfirm={(e) => confirm(e)}
+                        onCancel={cancel}
+                        okText="DELETE"
+                        cancelText="CANCEL"
+                        overlayClassName="custom-popconfirm"
+                      >
+                        <div className='flex justify-start gap-1 text-textprimary text-sm cursor-pointer hover:text-red-500' >
+                        <RiDeleteBin6Line className='h-[20px] w-[20px]' /> <p> DELETE </p> </div>
+                      </Popconfirm>
+                 
+                 
               </div>
 
               {/* List of Cart Items */}
@@ -220,7 +243,23 @@ useEffect(()=>{
                         <span className="text-center w-8">{item?.qnty}</span>
                         <button className="border rounded-sm bg-slate-200 py-1 px-4 ml-2" onClick={() => addToCart(item)}>+</button>
                       </div>
-                      <RiDeleteBin6Line className='h-[20px] w-[20px] text-red-400 cursor-pointer' onClick={() => removeProductToCart(item)} />
+                      <Popconfirm
+                        title={<span className="text-lg">Delete the Item</span>}
+                        description={
+                          <span className="text-lg">
+                            Are you sure to delete this Item?
+                          </span>
+                        }
+                        onConfirm={(e) => confirm(e, item)}
+                        onCancel={cancel}
+                        okText="DELETE"
+                        cancelText="CANCEL"
+                        overlayClassName="custom-popconfirm"
+                      >
+                        <RiDeleteBin6Line className="h-[20px] w-[20px] text-red-400 cursor-pointer" />
+                      </Popconfirm>
+
+
                     </div>
                   </div>
                 </div>
@@ -239,49 +278,49 @@ useEffect(()=>{
               <div className='flex justify-between pb-2'>
                 <p>SubTotal</p>
 
-                <div className='flex justify-start '> 
-                  <p><TbCurrencyTaka className='h-[20px] w-[20px]'/>
+                <div className='flex justify-start '>
+                  <p><TbCurrencyTaka className='h-[20px] w-[20px]' />
                   </p>  <p>{subTotal}</p>
                 </div>
               </div>
 
               <div className='flex justify-between pb-4'>
                 <p>Shipping</p>
-                <div className='flex justify-start '> 
-                  <p><TbCurrencyTaka className='h-[20px] w-[20px]'/>
+                <div className='flex justify-start '>
+                  <p><TbCurrencyTaka className='h-[20px] w-[20px]' />
                   </p>  <p>{shipping}</p>
                 </div>
-                
+
               </div>
 
               <div className='flex justify-between pb-4 border-t-[1px] border-slate-200'>
                 <p>Total</p>
-               
-                <div className='flex justify-start '> 
-                  <p><TbCurrencyTaka className='h-[20px] w-[20px]'/>
+
+                <div className='flex justify-start '>
+                  <p><TbCurrencyTaka className='h-[20px] w-[20px]' />
                   </p>   <p>{subTotal + shipping}</p>
                 </div>
               </div>
               <p className='text-sm pb-2 text-slate-500'>* Delivery charges might vary depending on product size and weight.</p>
               <div className='flex justify-start gap-2 pb-2'>
-                        <Checkbox
-                            onChange={(e) => setSelect(e.target.checked)}
-                        // checked={selectAll}
-                        >
+                <Checkbox
+                  onChange={(e) => setSelect(e.target.checked)}
+                // checked={selectAll}
+                >
 
-                        </Checkbox>
-                        <p className='text-xs pt-1'> I agree with Terms&Conditions.</p>
-                    </div>
+                </Checkbox>
+                <p className='text-xs pt-1'> I agree with Terms&Conditions.</p>
+              </div>
               <div>
-              
+
 
                 <button
-                        onClick={handelNavigate}
-                            disabled={select && selectedItems.length > 0  ? false  : true}
-                            className={`w-full text-sm p-2  font-semibold ${select  && selectedItems.length > 0 ? 'bg-red-500' : 'bg-slate-400'} text-white rounded-md`}
-                        >
-                            Proced To CheckOut ({totalQntity})
-                        </button>
+                  onClick={handelNavigate}
+                  disabled={select && selectedItems.length > 0 ? false : true}
+                  className={`w-full text-sm p-2  font-semibold ${select && selectedItems.length > 0 ? 'bg-red-500' : 'bg-slate-400'} text-white rounded-md`}
+                >
+                  Proced To CheckOut ({totalQntity})
+                </button>
               </div>
             </div>
 
