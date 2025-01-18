@@ -55,6 +55,7 @@ export interface UserType {
     email: string;
     name: string;
     _id: string; // Ensure the id matches the actual field in your data
+    image: string | File;
   }
   
 
@@ -73,15 +74,17 @@ export interface UserType {
     const [userData, setUserData] = useState<UserType>({
       _id: '',
       name: '',
-      email: ''
+      email: '',
+      image:''
     });
+  console.log(userData,'userData=========')
+
 
     const[passwordChnage,setPasswordChnage] = useState({
         oldPassword:'',
         Password:'',
         confirmPassword:''
     })
-  console.log(passwordChnage,'passwordChnage=========')
     // State for modal visibility
     const [isModalOpen, setIsModalOpen] = useState({
         editModalOpen: false,
@@ -129,7 +132,8 @@ export interface UserType {
         setUserData({
           _id: agentData._id,
           name: agentData.name,
-          email: agentData.email
+          email: agentData.email,
+          image:''
         });
   
         // Set form fields with the new values
@@ -177,12 +181,19 @@ export interface UserType {
       };
   
     // Handle input change
-    const handleInputChange = (value: string, key: keyof UserType) => {
-      setUserData((prevState) => ({
-        ...prevState,
-        [key]: value,
-      }));
-    };
+    // const handleInputChange = (value: string, key: keyof UserType) => {
+    //   setUserData((prevState) => ({
+    //     ...prevState,
+    //     [key]: value,
+    //   }));
+    // };
+
+    const handleInputChange = (value: string | File, key: keyof UserType) => {
+        setUserData((prevState) => ({
+          ...prevState,
+          [key]: value,
+        }));
+      };
 
     const handleInputChangepass = (value: string, key: keyof passwordChangeType) => {
         setPasswordChnage((prevState) => ({

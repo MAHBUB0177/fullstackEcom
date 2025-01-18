@@ -7,13 +7,23 @@ import { Form } from 'antd';
 interface UserData {
     name: string;
     email: string;
+    image?: File | string;
   }
   
   interface EditFormProps {
     userData: UserData;
-    handleInputChange: (value: string, fieldName: keyof UserData) => void;
+    handleInputChange: (value: string | File, fieldName: keyof UserData) => void;
+    // handleInputChange: (value: string, fieldName: keyof UserData) => void;
   }
 const EditForm = ({userData,handleInputChange}:EditFormProps) => {
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          handleInputChange(file, "image");
+        }
+      };
+
   return (
     <div>
          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
@@ -57,13 +67,12 @@ const EditForm = ({userData,handleInputChange}:EditFormProps) => {
 
 
                     <div className="col-span-1 flex items-center justify-center">
-                        <input
-                            //   onChange={(e) => fileupload(e.target.files[0], index)}
-                            //   id={`myFile-${index}`}
-                            type="file"
-                            //   ref={fileInputRef}
-                            className="file:bg-primary file:px-4  file:py-2 file:text-gray-400 rounded-md file:cursor-pointer border border-slate-400 w-full"
-                        />
+                    <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="file:bg-primary file:px-4 file:py-2 file:text-gray-400 rounded-md file:cursor-pointer border border-slate-400 w-full"
+          />
                     </div>
                 </div>
                 
