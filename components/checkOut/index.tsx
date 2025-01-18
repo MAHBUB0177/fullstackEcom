@@ -30,6 +30,7 @@ const PaymentGetway = () => {
   const selctedOrderinfo = useSelector(
     (state: RootState) => state.Orderinfo.confirmOrderInfo as any
   );
+  console.log(selctedOrderinfo,'selctedOrderinfo==')
   const handleClick = (index: number) => {
     setSelectedIndex(index); // Update state to the clicked item's index
   };
