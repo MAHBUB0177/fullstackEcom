@@ -55,7 +55,7 @@ export interface UserType {
     email: string;
     name: string;
     _id: string; // Ensure the id matches the actual field in your data
-    image: string | File;
+    image: string ;
   }
   
 
@@ -69,7 +69,7 @@ export interface UserType {
     const [form] = Form.useForm();
     const dispatch=useDispatch()
  
-  
+  const[loading,setLoading]=useState('false')
     // State for user data
     const [userData, setUserData] = useState<UserType>({
       _id: '',
@@ -77,8 +77,6 @@ export interface UserType {
       email: '',
       image:''
     });
-  console.log(userData,'userData=========')
-
 
     const[passwordChnage,setPasswordChnage] = useState({
         oldPassword:'',
@@ -140,6 +138,7 @@ export interface UserType {
         form.setFieldsValue({
           name: agentData.name,
           email: agentData.email,
+        //   image:agentData.image
         });
   
       
@@ -180,13 +179,7 @@ export interface UserType {
         }
       };
   
-    // Handle input change
-    // const handleInputChange = (value: string, key: keyof UserType) => {
-    //   setUserData((prevState) => ({
-    //     ...prevState,
-    //     [key]: value,
-    //   }));
-    // };
+
 
     const handleInputChange = (value: string | File, key: keyof UserType) => {
         setUserData((prevState) => ({
@@ -202,8 +195,8 @@ export interface UserType {
         }));
       };
     
-  
-
+    
+      
     return (
         <div>
             <div className=" mx-auto max-w-screen-xl py-[100px]  p-3">
@@ -212,7 +205,25 @@ export interface UserType {
                     <div className="w-full md:w-3/12 m-2 shadow-2xl">
                         <div className="bg-white p-3 border-t-4 border-primary">
                             <div className="image overflow-hidden">
+
+                                {
+                                    agentData?.image ?         
+                                    <img
+                                    src={agentData?.image}
+                                    style={{ width: '80%', objectFit: 'contain' }}
+                                    className="h-32 w-32 rounded-full border-4 border-white mx-auto my-4"
+                                    alt={agentData?.image}
+                                  /> : 
                                 <Image className="h-32 w-32 rounded-full border-4 border-white mx-auto my-4" src={profile} alt="" />
+
+                                }
+
+                        
+                            </div>
+
+                            <div>
+                                
+
                             </div>
                             <div className="py-2">
                                 <div className='flex justify-between items-start'>
@@ -296,7 +307,7 @@ export interface UserType {
                     width={"1000px"}
                 >
                     <Form onFinish={onFinish} form={form}>
-                        <EditForm userData={userData} handleInputChange={handleInputChange} />
+                        <EditForm userData={userData} handleInputChange={handleInputChange} setLoading={setLoading}/>
 
                         <div className="flex justify-end mt-3">
                             <div
@@ -308,8 +319,8 @@ export interface UserType {
                                     size={"w-28 text-sm py-2 bg-red-500"}
                                 />
                             </div>
-                            <div style={{ marginRight: "4px" }}>
-                                <CustomButton type={"submit"} btnName="submit" size={"w-28 text-sm py-2"} bg={'bg-bgsecondary'} />
+                            <div style={{ marginRight: "4px" }} >
+                                <CustomButton type={"submit"} btnName="submit" size={"w-28 text-sm py-2"} bg={'bg-bgsecondary'} disabled={loading === "true"}/>
                             </div>
                         </div>
                     </Form>
