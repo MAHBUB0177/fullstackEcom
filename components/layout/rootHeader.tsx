@@ -40,7 +40,7 @@ export interface UserType {
 }
 
 const menuList = [
-  { title: 'My Orders', path: '' },
+  { title: 'My Orders', path: '/myOrders' },
   { title: 'Old Orders', path: '' },
   { title: 'Profile', path: '/profile' },
   { title: 'Logout', path: '' },
