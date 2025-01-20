@@ -1,17 +1,23 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { PiWarningCircle } from "react-icons/pi";
 import { MdOutlinePreview } from "react-icons/md";
+import ActiveOrders from "@/components/myOrders/activeOrders";
+import ConfirmOrder from "@/components/myOrders/confirmOrder";
+import CancelledOrder from "@/components/myOrders/cancelledOrder";
+import Review from "@/components/myOrders/review";
 const page = () => {
   const menuList = [
-    { title: "Active Orders", path: "/myOrders", icon: FaShoppingCart },
-    { title: "Confirm Orders", path: "/profile", icon: FaShoppingCart },
-    { title: "Cancel Orders", path: "", icon: PiWarningCircle },
-    { title: "Reviewed", path: "", icon: MdOutlinePreview },
+    { title: "Active Orders", path: "/myOrders", icon: FaShoppingCart ,state:"ActiveOrders"},
+    { title: "Confirm Orders", path: "/profile", icon: FaShoppingCart,state:"ConfirmOrders" },
+    { title: "Cancel Orders", path: "", icon: PiWarningCircle,state:"CancelOrders"  },
+    { title: "Reviewed", path: "", icon: MdOutlinePreview,state:"Reviewed"  },
   ];
+  const [orderState,setOrderState]=useState('ActiveOrders')
   return (
     <div>
-      <div className=" mx-auto max-w-screen-xl py-[100px]  p-3">
+      <div className=" mx-auto px-40 py-[50px]  p-3">
         <div className="flex flex-col md:flex-row  justify-between  gap-4">
 
           <div className="w-full h-auto py-2 md:h-[250px] lg:h-[250px] md:w-2/6 p-3 bg-primary shadow-2xl  rounded-sm ">
@@ -21,7 +27,7 @@ const page = () => {
             <div>
               {menuList.map((item, i) => (
                 //   <Link href={item?.path} key={i}>
-                <p className="px-3 py-2 hover:bg-gray-100  text-slate-500 cursor-pointer flex justify-start gap-2">
+                <p className="px-3 py-2 hover:bg-gray-100  text-slate-500 cursor-pointer flex justify-start gap-2" onClick={()=>setOrderState(item?.state)}>
                   {item.icon && (
                     <item.icon
                       style={{
@@ -41,10 +47,12 @@ const page = () => {
 
           <div className="w-full md:w-4/6  h-[400px] bg-white rounded-sm shadow-2xl">
             <div className=" p-3 ">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-              porro nam est vitae molestiae dolores aspernatur eos, ducimus
-              quisquam, accusantium quod dolore quidem tenetur laudantium ad
-              debitis. Eos, dolores corrupti?
+              {orderState === 'ActiveOrders' ? <>
+              <ActiveOrders/></> : orderState === 'ConfirmOrders' ?
+              <> <ConfirmOrder/></> :orderState === 'CancelOrders' ? 
+            <>
+            <CancelledOrder/></> : orderState === 'Reviewed' ?
+            <><Review/></>:<></> }
             </div>
           </div>
           
