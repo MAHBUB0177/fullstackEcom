@@ -18,6 +18,7 @@ import {
 import { setRemovemultipleProduct } from "@/reducer/cartReducer";
 import { useRouter } from "next/navigation";
 import OrderDetailsInfo from "./orderDetailsInfo";
+import { setconfirmOrderInfo } from "@/reducer/confirmCartReducer";
 
 type Agent = {
   _id: string;
@@ -49,6 +50,7 @@ const Shipping = () => {
       const response = await getOrderInfo(); // Make the API call
       if (response?.data?.isSuccess) {
         setOrderInfo(response.data.item); // Assuming `items` is the array in your API response
+         dispatch(setconfirmOrderInfo({ value: 1, order: response.data.item[0] }));
       }
     } catch (error) {
       console.error("Error fetching order info:", error);

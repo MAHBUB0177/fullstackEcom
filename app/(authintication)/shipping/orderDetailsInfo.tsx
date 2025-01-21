@@ -42,7 +42,6 @@ const OrderDetailsInfo = ({ orderInfo, cartList }: OrderDetailsInfoProps) => {
   const selctedOrderinfo = useSelector(
     (state: RootState) => state.Orderinfo.confirmOrderInfo
   );
-
   return (
     <>
       <div className=" mb-3  shadow-sm  text-sm">

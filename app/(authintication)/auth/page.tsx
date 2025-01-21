@@ -75,6 +75,7 @@ const Login = () => {
   useEffect(() => {
     const { searchParams } = new URL(window.location.href);
     const callbackUrl = searchParams.get('callbackUrl');
+    console.log(callbackUrl,'callbackUrl====')
     if (sessionStatus === "authenticated") {
       if (callbackUrl) {
         router.replace(callbackUrl);

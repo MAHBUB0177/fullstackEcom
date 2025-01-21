@@ -24,4 +24,4 @@ const CommonModal = ({children,open,setIsModalOpen,title,onCancel,width,bodyStyl
   )
 }
 
-export default CommonModal
+export default CommonModal;
