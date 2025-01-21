@@ -25,6 +25,7 @@ const OrderCreate = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const cartList = useSelector((state: RootState) => state.cart.addProducts)
+  console.log(cartList,'cartList============')
 
   const [selectedItems, setSelectedItems] = useState<any[]>([]); // Update type to store full item objects
   const [selectAll, setSelectAll] = useState(false);
@@ -158,7 +159,8 @@ const OrderCreate = () => {
   return (
     <div className='mx-4 lg:mx-20 mt-8 '>
       {
-        cartList?.length == 0 ? <div className=' mx-auto h-[500px] flex justify-center items-center'>
+        cartList?.length == 0 ? 
+        <div className=' mx-auto h-[500px] flex justify-center items-center'>
           <div>
             <NodataFound />
           </div>

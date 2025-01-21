@@ -45,7 +45,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-4/6  h-[400px] bg-white rounded-sm shadow-2xl">
+          <div className="w-full md:w-4/6  h-auto bg-white rounded-sm shadow-2xl">
             <div className=" p-3 ">
               {orderState === 'ActiveOrders' ? <>
               <ActiveOrders/></> : orderState === 'ConfirmOrders' ?

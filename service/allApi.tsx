@@ -118,3 +118,8 @@ export const createMyContact=(payload:any)=>{
   const url=`/api/contact/create`
   return axiosInstance.post(url,payload)
 }
+
+export const confirmOrdersInfoByUser=()=>{
+  const url=`/api/cart/orders/confrimOrdersInfoByUser`
+  return axiosInstance.get(url)
+}

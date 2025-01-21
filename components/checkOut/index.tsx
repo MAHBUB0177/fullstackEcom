@@ -100,7 +100,7 @@ const PaymentGetway = () => {
       shippingHouseNo: selctedOrderinfo?.order?.houseNo ?? "",
       shippingCity: selctedOrderinfo?.order?.city ?? "",
       shippingFee:sheppingFee,
-      grandTotal:productTotal
+      grandTotal:productTotal,
 
     }));
     try {
