@@ -2,7 +2,7 @@
 import { errorMessage, successMessage } from '@/components/common/commonFunction';
 import NodataFound from '@/components/productFilter/nodataFound';
 import { setAddProducts, setCheckoutItem, setDicrementProduct, setEmptyCart, setRemoveProduct } from '@/reducer/cartReducer';
-import { getOrderInfo } from '@/service/allApi';
+import { cancelOrder, GetCurrentuserInfo, getOrderInfo } from '@/service/allApi';
 import { RootState } from '@/store';
 import { Button, Checkbox, message, Popconfirm, PopconfirmProps } from 'antd';
 import { useRouter } from 'next/navigation';
@@ -20,13 +20,22 @@ type orderType = {
   address: string
 }
 
+type Agent = {
+  _id: string;
+  name: string;
+  email: string;
+};
+
+
 const OrderCreate = () => {
   const authUserData = useSelector((state: RootState) => state.auth.authUser)
   const router = useRouter()
   const dispatch = useDispatch()
   const cartList = useSelector((state: RootState) => state.cart.addProducts)
   console.log(cartList,'cartList============')
-
+  const [itemList, setItemList] = useState<any[]>([]);
+  console.log(itemList, "Updated itemList============");
+ const [agent, setAgent] = useState<Agent | null>(null);
   const [selectedItems, setSelectedItems] = useState<any[]>([]); // Update type to store full item objects
   const [selectAll, setSelectAll] = useState(false);
   const [subTotal, setSubtotal] = useState(0);
@@ -71,15 +80,119 @@ const OrderCreate = () => {
     }
   };
 
+ const getCurrentUserInfo = async () => {
+    try {
+      const res = await GetCurrentuserInfo();
+      if (res?.data?.user) {
+        setAgent(res.data.user);
+      }
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
 
+  useEffect(() => {
+    getCurrentUserInfo();
+  }, []);
 
+  // const CancelOrder = async (item: any) => {
+  //   setItemList((prevList) => {
+  //     // Check if the item is an array
+  //     let newList
+  //     if (Array.isArray(item)) {
+  //       // Avoid pushing an array inside another array
+  //       return [...prevList, ...item];
+  //     } else {
+  //       // Push the object into the array
+  //       return [...prevList, item];
+  //     }
+  //   });
+  
+  //   if (!agent) {
+  //     errorMessage("Agent information is missing");
+  //     return;
+  //   }
+  
+  //   // Ensure itemList includes the current update
+  //   const updatedCartList = itemList.map((product) => ({
+  //     ...product, // Copy existing product details
+  //     userId: agent._id, // Add user ID
+  //     name: agent.name, // Add user name
+  //     email: agent.email, // Add user email
+  //   }));
+  
+  //   try {
+  //     const response = await cancelOrder(updatedCartList);
+  //     if (response.data?.isSuccess) {
+  //       // Handle success logic
+  //       if (Array.isArray(item)) {
+  //         if (selectAll) {
+  //           dispatch(setEmptyCart());
+  //           return successMessage("Products are removed from the cart");
+  //         }
+  //       } else {
+  //         dispatch(setRemoveProduct(item));
+  //         successMessage("Order Cancelled Successfully");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     errorMessage("Something Went Wrong");
+  //   }
+  // };
+  
+  const CancelOrder = async (item: any) => {
+    let newList: any[] = [];
+  
+    // Update `newList` based on the type of `item`
+    if (Array.isArray(item)) {
+      // Avoid pushing an array inside another array
+      newList = [...item];
+    } else {
+      // Push the single object into the array
+      newList = [item];
+    }
+  
+    if (!agent) {
+      errorMessage("Agent information is missing");
+      return;
+    }
+  
+    // Ensure `newList` includes updated cart details
+    const updatedCartList = newList.map((product) => ({
+      ...product, // Copy existing product details
+      userId: agent._id, // Add user ID
+      name: agent.name, // Add user name
+      email: agent.email, // Add user email
+    }));
+  
+    try {
+      const response = await cancelOrder(updatedCartList);
+      if (response.data?.isSuccess) {
+        // Handle success logic
+        if (Array.isArray(item)) {
+          if (selectAll) {
+            dispatch(setEmptyCart());
+            successMessage("Products are removed from the cart");
+          }
+        } else {
+          dispatch(setRemoveProduct(item));
+          successMessage("Order Cancelled Successfully");
+        }
+      }
+    } catch (error) {
+      errorMessage("Something Went Wrong");
+    }
+  };
+  
   const addToCart = (item: any) => {
     dispatch(setAddProducts(item));
   }
-  const removeProductToCart = (item: any) => {
-    dispatch(setRemoveProduct(item))
-    errorMessage('Product Is Removed From The Cart')
-  }
+  // const removeProductToCart = (item: any) => {
+  //   console.log(item,'item data============')
+  //   // CancelOrder()
+  //   dispatch(setRemoveProduct(item))
+  //   errorMessage('Product Is Removed From The Cart')
+  // }
   const decrementProductToCart = (item: any) => {
     dispatch(setDicrementProduct(item))
   }
@@ -147,8 +260,10 @@ const OrderCreate = () => {
   }, [])
 
   const confirm = (e?: React.MouseEvent<HTMLElement>, item?: any) => {
+    console.log(item,'confirm===========')
     if (item) {
-      removeProductToCart(item);
+      // removeProductToCart(item);
+      CancelOrder(item)
     }else{
       removeCart()
     }
@@ -181,10 +296,11 @@ const OrderCreate = () => {
                         title={<span className="text-lg">Delete the Item</span>}
                         description={
                           <span className="text-lg">
-                            Are you sure to delete this Item?
+                            Are you sure to Cancel this Item from Cart?
                           </span>
                         }
-                        onConfirm={(e) => confirm(e)}
+                        // onConfirm={(e) => confirm(e)}
+                        onConfirm={(e) => confirm(e, cartList)}
                         onCancel={cancel}
                         okText="DELETE"
                         cancelText="CANCEL"

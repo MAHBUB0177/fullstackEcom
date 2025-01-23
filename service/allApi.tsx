@@ -94,6 +94,13 @@ export const confirmOrder=(payload:any)=>{
   return axiosInstance.post(url,payload)
 }
 
+
+export const cancelOrder=(payload:any)=>{
+  const url=`/api/cart/orders/cancel`
+  return axiosInstance.post(url,payload)
+}
+
+
 export const getCategoryByName=(productName:string)=>{
   const url=`/api/items/category/fetchByType?productName=${productName}`
   return axiosInstance.get(url)

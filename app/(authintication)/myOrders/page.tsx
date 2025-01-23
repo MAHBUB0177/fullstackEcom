@@ -18,9 +18,9 @@ const page = () => {
   return (
     <div>
       <div className=" mx-auto px-0 py-0 md:px-40 md:py-[50px]  p-3">
-        <div className="flex flex-col md:flex-row  justify-between  gap-4">
+        <div className="flex flex-col lg:flex-row  justify-between  gap-4">
 
-          <div className="w-full h-auto py-2 md:h-[250px] lg:h-[250px]  md:w-2/6 p-3 bg-primary shadow-2xl  rounded-sm ">
+          <div className="w-full h-auto py-2 md:h-[250px] lg:h-[250px]  lg:w-2/6 p-3 bg-primary shadow-2xl  rounded-sm ">
             <div className="border-b-[1px]  border-slate-200">
               <p className="p-3 text-xl font-semibold">My Orders</p>
             </div>
@@ -45,7 +45,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className="w-full md:w-4/6  h-auto bg-white rounded-sm shadow-2xl">
+          <div className="w-full lg:w-4/6  h-auto bg-white rounded-sm shadow-2xl">
             <div className=" p-3 ">
               {orderState === 'ActiveOrders' ? <>
               <ActiveOrders/></> : orderState === 'ConfirmOrders' ?
