@@ -20,7 +20,11 @@ const ActiveOrders = () => {
           <div key={item._id} className="bg-primary shadow-sm mb-3">
             <div className="border-b-[1px] border-slate-200"></div>
             <div className="flex flex-col md:flex-row justify-between pt-2 p-3">
-              <div className="w-full md:w-1/3 flex justify-center pb-2 md:pb-0 md:justify-start gap-2">
+             
+
+              <div className="w-full md:w-2/3 flex flex-col md:flex-row justify-center pb-2 md:pb-0 items-center">
+              <div className="w-full  flex justify-center pb-2 md:pb-0 md:justify-start gap-2">
+                
                 <img
                   src={item?.image[0]}
                   style={{
@@ -39,8 +43,6 @@ const ActiveOrders = () => {
                   </div>
                 </div>
               </div>
-
-              <div className="w-full md:w-1/3 flex justify-center pb-2 md:pb-0 items-center">
                 <div className="pt-2">
                   <div className="text-sm flex justify-start gap-2 text-md">
                     Quantity:
