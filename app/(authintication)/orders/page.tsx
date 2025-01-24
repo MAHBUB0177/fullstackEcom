@@ -162,7 +162,7 @@ const OrderCreate = () => {
       ...product, // Copy existing product details
       userId: agent._id, // Add user ID
       name: agent.name, // Add user name
-      email: agent.email, // Add user email
+      email: agent.email, 
     }));
   
     try {
