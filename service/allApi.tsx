@@ -130,3 +130,8 @@ export const confirmOrdersInfoByUser=()=>{
   const url=`/api/cart/orders/confrimOrdersInfoByUser`
   return axiosInstance.get(url)
 }
+
+export const cancelOrdersInfoByUser=()=>{
+  const url=`/api/cart/orders/cancelOrdersInfoByUser`
+  return axiosInstance.get(url)
+}
