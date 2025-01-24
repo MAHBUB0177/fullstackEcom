@@ -20,7 +20,6 @@ const ConfirmOrder: React.FC = () => {
   // Set the type of `orderInfo` state as an array of `OrderItem`
   const [orderInfo, setOrderInfo] = useState<OrderItem[]>([]);
 
-  console.log(orderInfo, "orderInfo====");
 
   const getConfirmOrderInfo = async () => {
     try {
