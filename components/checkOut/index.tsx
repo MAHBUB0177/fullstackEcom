@@ -10,7 +10,6 @@ import { setRemovemultipleProduct } from "@/reducer/cartReducer";
 import { errorMessage } from "../common/commonFunction";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
-
 type Agent = {
   _id: string;
   name: string;
