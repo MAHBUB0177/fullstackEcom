@@ -119,7 +119,6 @@ const PaymentGetway = () => {
       }
 
       setTimeout(async()=>{
-        console.log('settimeout caled===========')
         const sessionId = response.data.id;
         // Get the client-side Stripe instance
         const stripe = await stripePromise;

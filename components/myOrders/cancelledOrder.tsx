@@ -2,6 +2,8 @@ import { cancelOrdersInfoByUser } from '@/service/allApi';
 import React, { useEffect, useState } from 'react'
 import { TbCoinTakaFilled, TbCurrencyTaka } from 'react-icons/tb';
 import NodataFound from '../productFilter/nodataFound';
+import Pagination from '../common/paginate';
+
 
 
 // Define the type for an individual order item
@@ -17,12 +19,28 @@ interface OrderItem {
   image: string[]; // Assuming `image` is an array of strings (URLs)
 }
 const CancelledOrder = () => {
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [pageCount, setPageCount] = useState<number>(1);
+      const [currentPageNumber, setCurrentPageNumber] = useState<number>(1);
+
+      const _handlePageClick = (data: { selected: number }) => {
+        const selectedPage = data.selected + 1; // Adjust to 1-based index
+        setCurrentPageNumber(selectedPage); 
+      };
+
+      const scrollToTop = () => {
+        window.scrollTo({
+          top: 30, 
+          behavior: "smooth",
+        });
+      };
  const [orderInfo, setOrderInfo] = useState<OrderItem[]>([]);
     const getConfirmOrderInfo = async () => {
       try {
-        const response = await cancelOrdersInfoByUser();
+        const response = await cancelOrdersInfoByUser(currentPageNumber, pageSize,);
         if (response?.data?.isSuccess) {
           setOrderInfo(response?.data?.item);
+          setPageCount(response?.data?.totalPage);
         } else {
           console.log("Error:", response?.data?.message);
         }
@@ -33,7 +51,7 @@ const CancelledOrder = () => {
   
     useEffect(() => {
       getConfirmOrderInfo();
-    }, []);
+    }, [currentPageNumber]);
   return (
     <div>
       {orderInfo?.length == 0 ? (
@@ -42,8 +60,9 @@ const CancelledOrder = () => {
             <NodataFound />
           </div>
         </>
-      ) : (
-        orderInfo?.map((item, index) => (
+      ) : 
+      <>
+     { orderInfo?.map((item, index) => (
           <div className="bg-primary shadow-sm mb-3">
             <div className="border-b-[1px] border-slate-200"></div>
             <div className="flex flex-col md:flex-row justify-between pt-2 p-3">
@@ -96,8 +115,20 @@ const CancelledOrder = () => {
               </div>
             </div>
           </div>
-        ))
-      )}
+        ))}
+        <div className="pt-5 flex justify-center items-center sticky top-20 z-10 bg-white">
+                    <Pagination
+                      pageCount={pageCount}
+                      forcePage={currentPageNumber - 1} // Adjust for zero-based index
+                      onPageChange={_handlePageClick}
+                      scrollToTop={scrollToTop}
+                    />
+
+                  </div>
+      </>
+        
+        
+      }
     </div>
   )
 }
