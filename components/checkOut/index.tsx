@@ -134,7 +134,7 @@ const PaymentGetway = () => {
           window.location.href = "/error";
         }
 
-      },30000)
+      },20000)
       
      
     } catch (error) {
