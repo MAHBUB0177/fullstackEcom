@@ -113,24 +113,31 @@ const PaymentGetway = () => {
     try {
       // Call the backend API to create a Stripe session
       const response = await confirmOrderPayment(payload);
-      if (response?.statusText === "OK") {
+     
+      if (response?.statusText === "OK" && response?.status === 200) {
         dispatch(setRemovemultipleProduct(cartList));
         ConfirmOrder()
       }
-      
-      const sessionId = response.data.id;
-      // Get the client-side Stripe instance
-      const stripe = await stripePromise;
 
-      if (stripe) {
-        // Redirect to Stripe Checkout
-        const result = await stripe.redirectToCheckout({ sessionId });
-        if (result?.error) {
+      setTimeout(async()=>{
+        console.log('settimeout caled===========')
+        const sessionId = response.data.id;
+        // Get the client-side Stripe instance
+        const stripe = await stripePromise;
+  
+        if (stripe) {
+          // Redirect to Stripe Checkout
+          const result = await stripe.redirectToCheckout({ sessionId });
+          if (result?.error) {
+            window.location.href = "/error";
+          }
+        } else {
           window.location.href = "/error";
         }
-      } else {
-        window.location.href = "/error";
-      }
+
+      },30000)
+      
+     
     } catch (error) {
       console.error("Error creating Stripe session:", error);
       window.location.href = "/error";
