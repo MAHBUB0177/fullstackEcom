@@ -41,7 +41,7 @@ export interface UserType {
 
 const menuList = [
   { title: 'My Orders', path: '/myOrders' },
-  { title: 'Old Orders', path: '' },
+  // { title: 'Old Orders', path: '' },
   { title: 'Profile', path: '/profile' },
   { title: 'Logout', path: '' },
 ]
@@ -62,7 +62,6 @@ const Rootheader = () => {
   const authUserData = useSelector((state: RootState) => state.auth.authUser) as UserType
   const authData = useSelector((state: RootState) => state.auth.authData) as AuthDataType
   const { data: session, status: sessionStatus } = useSession();
-console.log(sessionStatus,'sessionStatus============')
   const handelLogout = () => {
     dispatch(setAuth({}))
     dispatch(setAuthUser({}))
