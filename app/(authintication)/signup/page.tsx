@@ -37,7 +37,8 @@ const SignUp = () => {
       password:usrData?.password,
     }
 
-    await axios.post (`https://node-express-hostapi-production-b68c.up.railway.app/api/user/register`,payload)
+    // await axios.post (`https://node-express-hostapi-production-b68c.up.railway.app/api/user/register`,payload)
+    await axios.post (`https://node-express-hostapi.vercel.app/api/user/register`,payload)
       .then(response => {
         if (response?.data) {
           message.success(response?.data?.message)
