@@ -45,7 +45,6 @@ type Agent = {
 
 const ProductDetails = ({ params }: ProductParams) => {
   const { data: session, status: sessionStatus } = useSession();
-  console.log(sessionStatus, 'sessionStatus============')
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [product, setProduct] = useState<any>(null);
@@ -53,7 +52,6 @@ const ProductDetails = ({ params }: ProductParams) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [agent, setAgent] = useState<Agent | null>(null);
   const [reviewlist, setReviewlist] = useState([])
-  console.log(reviewlist, 'reviewlist=========')
   const getProductbyId = async (id: string | number) => {
     try {
       const res = await getProductById(id);

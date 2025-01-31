@@ -7,7 +7,6 @@ import { GiConfirmed } from 'react-icons/gi'
 const page = () => {
     const router = useRouter()
     const[called,setIsCalled]=useState(true)
-    console.log(called,'called')
 
     useEffect(() => {
         const timer = setTimeout(() => {

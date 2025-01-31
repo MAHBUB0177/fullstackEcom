@@ -258,7 +258,6 @@ const OrderCreate = () => {
   }, [])
 
   const confirm = (e?: React.MouseEvent<HTMLElement>, item?: any) => {
-    console.log(item,'confirm===========')
     if (item) {
       // removeProductToCart(item);
       CancelOrder(item)

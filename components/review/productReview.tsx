@@ -16,7 +16,6 @@ interface ProductReviewProps {
   }
 
 const ProductReview: React.FC<ProductReviewProps> = ({ item,details }) => {
-    console.log(details,'details=========')
   return (
 
     <div className="shadow-sm bg-primary rounded-md w-full h-auto border border-slate-100 mt-8 ">
