@@ -301,7 +301,7 @@ export interface UserType {
             <div>
                 <CommonModal
                     open={isModalOpen?.editModalOpen}
-                    setIsModalOpen={(isOpen) => toggleModal('editModalOpen', isOpen)}
+                    // setIsModalOpen={(isOpen) => toggleModal('editModalOpen', isOpen)}
                     title={`EDIT`}
                     onCancel={_handleCancel}
                     width={"1000px"}
@@ -333,7 +333,7 @@ export interface UserType {
             <div>
                 <CommonModal
                     open={isModalOpen?.passwordChangedOpen}
-                    setIsModalOpen={(isOpen) => toggleModal('passwordChangedOpen', isOpen)}
+                    // setIsModalOpen={(isOpen) => toggleModal('passwordChangedOpen', isOpen)}
                     title={`Change Password`}
                     onCancel={_handleCancel1}
                     width={"1000px"}

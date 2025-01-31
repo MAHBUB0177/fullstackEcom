@@ -80,7 +80,6 @@ export const getAreaByCity=(city:string)=>{
 }
 
 export const createOrder=(payload:any)=>{
-  console.log(payload,'000000000000')
   const url=`/api/cart/orders`
   return axiosInstance.post(url,payload)
 }
@@ -136,7 +135,14 @@ export const cancelOrdersInfoByUser=(currentPageNumber: number, pageSize: number
   // const queryParams = new URLSearchParams(payload).toString();
   const url = `/api/cart/orders/cancelOrdersInfoByUser?page=${currentPageNumber}&limit=${pageSize}`;
   return axiosInstance.get(url);
-  
+}
 
+export const createMyReview=(payload:any)=>{
+  const url=`/api/review/create`
+  return axiosInstance.post(url,payload)
+}
 
+export const getReviewById=(productId:string | number)=>{
+  const url=`/api/review/fetchById?productId=${productId}`
+  return axiosInstance.get(url)
 }

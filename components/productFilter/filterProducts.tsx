@@ -349,7 +349,7 @@ const FilterProducts = () => {
 
       <CommonModal
         open={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        // setIsModalOpen={setIsModalOpen}
         title={`FILTER`}
         onCancel={_handleCancel}
         width={"1000px"}

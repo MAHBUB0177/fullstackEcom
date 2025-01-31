@@ -1,19 +1,30 @@
 "use client";
 import {
+  errorMessage,
   settings,
   ShuffledData,
   successMessage,
 } from "@/components/common/commonFunction";
+import CommonModal from "@/components/common/commonModal";
+import CustomButton from "@/components/common/customButton";
 import CardLoading from "@/components/landingPage/product/cardLoading";
 import NodataFound from "@/components/productFilter/nodataFound";
+import ProductReview from "@/components/review/productReview";
 import { setAddProducts } from "@/reducer/cartReducer";
 import {
+  createMyReview,
+  GetCurrentuserInfo,
   getProductById,
   GetRelatedProduct,
+  getReviewById,
   GetSearchProduct,
 } from "@/service/allApi";
+import { Form, message } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { MdMessage } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 
@@ -23,9 +34,26 @@ interface ProductParams {
   };
 }
 
+
+type Agent = {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+};
+
+
 const ProductDetails = ({ params }: ProductParams) => {
+  const { data: session, status: sessionStatus } = useSession();
+  console.log(sessionStatus, 'sessionStatus============')
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState('false')
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [agent, setAgent] = useState<Agent | null>(null);
+  const [reviewlist, setReviewlist] = useState([])
+  console.log(reviewlist, 'reviewlist=========')
   const getProductbyId = async (id: string | number) => {
     try {
       const res = await getProductById(id);
@@ -55,18 +83,87 @@ const ProductDetails = ({ params }: ProductParams) => {
     }
   };
 
+
+  const fetchReviewByProductId = async (id: string | number) => {
+    try {
+      const response = await getReviewById(id)
+
+      if (response.data.isSuccess) {
+        setReviewlist(response.data.item); // Set the fetched cities to state
+      } else {
+        console.error('Error:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Something Went Wrong');
+    }
+  };
   useEffect(() => {
     getRelatedProduct();
   }, [product?.category]);
 
+  const getCurrentUserInfo = async () => {
+    try {
+      const res = await GetCurrentuserInfo();
+      if (res?.data?.user) {
+        setAgent(res.data.user);
+      }
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
+
   useEffect(() => {
     getProductbyId(params.id);
+    fetchReviewByProductId(params.id)
+    // getCurrentUserInfo();
   }, []);
 
   const addToCart = (item: any) => {
     dispatch(setAddProducts(item));
     successMessage("Product Add To Cart");
   };
+
+
+  const _handleCancel = () => {
+    setIsModalOpen(false); // Close the edit modal
+  };
+
+
+
+
+  useEffect(() => {
+    if (sessionStatus === 'authenticated') {
+      getCurrentUserInfo();
+    }
+
+  }, [sessionStatus]);
+
+  const onFinish = async (values: any) => {
+    let payload = {
+      ...values,
+      reviewer_name: agent?.name,
+      rating: 4,
+      image: agent?.image,
+      productId: params.id
+
+    }
+    try {
+      setIsLoading(true)
+      const response = await createMyReview(payload);
+      if (response?.data?.isSuccess) {
+        form.resetFields();
+        successMessage('Your message sent successfully!')
+        _handleCancel()
+        setIsLoading(false)
+        fetchReviewByProductId(params.id)
+      }
+
+    } catch (error) {
+      errorMessage("Something Went Wrong");
+      setIsLoading(false)
+    }
+  };
+
   return (
     <div className="mx-4 pb-[50px] lg:mx-20 mt-8 ">
       <div className="  p-4 flex flex-col md:flex-row justify-between  md:gap-40 shadow-sm border border-slate-100 bg-primary rounded-md h-auto">
@@ -111,7 +208,7 @@ const ProductDetails = ({ params }: ProductParams) => {
               {product?.rating}
             </p>
           </div>
-          <div>
+          <div className='flex justify-start gap-3'>
             <div className="w-[200px] pt-2" onClick={() => addToCart(product)}>
               <a
                 href="#"
@@ -134,6 +231,16 @@ const ProductDetails = ({ params }: ProductParams) => {
                 Add to cart
               </a>
             </div>
+
+            {sessionStatus === 'authenticated' && <div className="w-[200px] pt-2" onClick={() => setIsModalOpen(true)}>
+              <a
+                href="#"
+                className="flex items-center justify-center rounded-md bg-[#E10101] px-5 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300"
+              >
+                <MdMessage className="h-[20px] w-[20px] mx-2" />
+                Review
+              </a>
+            </div>}
           </div>
         </div>
       </div>
@@ -219,6 +326,63 @@ const ProductDetails = ({ params }: ProductParams) => {
             </Slider>
           </div>
         )}
+      </div>
+
+      {reviewlist?.length > 0 && 
+       <div>
+       <ProductReview item={reviewlist} details={product?.description}/>
+     </div>}
+     
+
+      <div>
+        <CommonModal
+          open={isModalOpen}
+          // setIsModalOpen={() => setIsModalOpen(true)}
+          title={``}
+          onCancel={_handleCancel}
+          width={"1000px"}>
+          <Form onFinish={onFinish} form={form}>
+
+
+            <div>
+
+              <div className="mb-4 w-[500px]">
+                <p className="pb-2 font-semibold text-lg">SEND REVIEW</p>
+                <Form.Item
+                  name="message"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the details",
+                    },
+                  ]}
+                >
+                  <TextArea
+                    className="rounded-md w-full"
+                    rows={4}
+                    placeholder="Details"
+                    required
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex justify-end mt-3">
+                <div
+                  style={{ marginRight: "4px" }}
+                  onClick={() => _handleCancel()}
+                >
+                  <CustomButton
+                    btnName="Cancle"
+                    size={"w-28 text-sm py-2 bg-red-500"}
+                  />
+                </div>
+                <div style={{ marginRight: "4px" }} >
+                  <CustomButton type={"submit"} btnName="submit" size={"w-28 text-sm py-2"} bg={'bg-bgsecondary'} disabled={loading === "true"} />
+                </div>
+              </div>
+            </div>
+          </Form>
+
+        </CommonModal>
       </div>
     </div>
   );
