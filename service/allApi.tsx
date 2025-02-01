@@ -126,12 +126,17 @@ export const createMyContact=(payload:any)=>{
   return axiosInstance.post(url,payload)
 }
 
-export const confirmOrdersInfoByUser=()=>{
-  const url=`/api/cart/orders/confrimOrdersInfoByUser`
+export const confirmOrdersInfoByUser=(currentPageNumber: number, pageSize: number,)=>{
+  const url=`/api/cart/orders/confrimOrdersInfoByUser?page=${currentPageNumber}&limit=${pageSize}`
   return axiosInstance.get(url)
 }
 
-export const cancelOrdersInfoByUser=()=>{
-  const url=`/api/cart/orders/cancelOrdersInfoByUser`
-  return axiosInstance.get(url)
+export const cancelOrdersInfoByUser=(currentPageNumber: number, pageSize: number,)=>{
+
+  // const queryParams = new URLSearchParams(payload).toString();
+  const url = `/api/cart/orders/cancelOrdersInfoByUser?page=${currentPageNumber}&limit=${pageSize}`;
+  return axiosInstance.get(url);
+  
+
+
 }

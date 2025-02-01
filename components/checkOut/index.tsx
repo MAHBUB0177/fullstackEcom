@@ -10,7 +10,6 @@ import { setRemovemultipleProduct } from "@/reducer/cartReducer";
 import { errorMessage } from "../common/commonFunction";
 
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
-
 type Agent = {
   _id: string;
   name: string;
@@ -120,7 +119,6 @@ const PaymentGetway = () => {
       }
 
       setTimeout(async()=>{
-        console.log('settimeout caled===========')
         const sessionId = response.data.id;
         // Get the client-side Stripe instance
         const stripe = await stripePromise;
@@ -135,7 +133,7 @@ const PaymentGetway = () => {
           window.location.href = "/error";
         }
 
-      },30000)
+      },20000)
       
      
     } catch (error) {
