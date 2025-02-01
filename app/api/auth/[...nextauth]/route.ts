@@ -43,7 +43,10 @@ const authOptions = {
       },
       async authorize(userData: any) {
         try {
-          return userData;
+          console.log(userData, "authorize userData============");
+          if (userData?.email && userData?.name) {
+            return userData; // Return valid user data to NextAuth
+          }
         } catch (error: any) {
           throw new Error(error);
         }

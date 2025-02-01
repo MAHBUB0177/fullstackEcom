@@ -29,6 +29,10 @@ import { useDispatch } from 'react-redux';
 // };
 
 const authenticateWithNextAuth = async (userData: any) => {
+  if (!userData?.email || !userData?.name) {
+    console.error("Invalid userData passed to NextAuth", userData);
+    return;
+  }
   const response = await signIn("credentials", {
     ...userData,
     redirect: false,
@@ -59,12 +63,13 @@ const Login = () => {
       return errorMessage('User Name Or Password Missing');
     }
     try {
-      const response = await axios.post(`https://node-express-hostapi-production-b68c.up.railway.app/api/user/login`, payload);
+      // const response = await axios.post(`https://node-express-hostapi-production-b68c.up.railway.app/api/user/login`, payload);
+      const response = await axios.post(`http://localhost:500/api/user/login`, payload);
       if (response?.data) {
         successMessage( response?.data?.message || 'User Successfully Logged In')
         dispatch(setAuth(response?.data?.data));
         dispatch(setAuthUser(response?.data?.data?.user))
-       await authenticateWithNextAuth(response?.data?.data);
+       await authenticateWithNextAuth(response?.data?.data?.user);
       }
     } catch (error: any) {
       errorMessage(error?.response?.data?.message || 'Login failed, please try again.');
@@ -75,7 +80,6 @@ const Login = () => {
   useEffect(() => {
     const { searchParams } = new URL(window.location.href);
     const callbackUrl = searchParams.get('callbackUrl');
-    console.log(callbackUrl,'callbackUrl====')
     if (sessionStatus === "authenticated") {
       if (callbackUrl) {
         router.replace(callbackUrl);
