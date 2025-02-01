@@ -44,7 +44,6 @@ const SmallDeviceHeader = ({setSearchTerm,searchTerm,handleSubmit,searchData,cle
   const { data: session, status: sessionStatus } = useSession();
   const [show, setShow] = useState(false)
     return (
-
         <>
         <div className='flex justify-between items-center'>
             <Link href={'/'}>

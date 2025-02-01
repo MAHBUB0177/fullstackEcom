@@ -200,9 +200,9 @@ export interface UserType {
     return (
         <div>
             <div className=" mx-auto max-w-screen-xl py-[100px]  p-3">
-                <div className="md:flex no-wrap">
+                <div className="flex flex-col lg:flex-row">
 
-                    <div className="w-full md:w-3/12 m-2 shadow-2xl">
+                    <div className="w-full lg:w-3/12 m-2 shadow-2xl">
                         <div className="bg-white p-3 border-t-4 border-primary">
                             <div className="image overflow-hidden">
 
@@ -263,7 +263,7 @@ export interface UserType {
                         </div>
                     </div>
 
-                    <div className="w-full md:w-9/12 m-2 lg:h-64 h-auto">
+                    <div className="w-full lg:w-9/12 m-2 lg:h-64 h-auto">
                         <div className="bg-white p-3 rounded-sm shadow-2xl">
                             <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                                 <span className="text-green-500">

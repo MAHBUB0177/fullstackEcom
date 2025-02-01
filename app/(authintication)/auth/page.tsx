@@ -29,6 +29,10 @@ import { useDispatch } from 'react-redux';
 // };
 
 const authenticateWithNextAuth = async (userData: any) => {
+  if (!userData?.email || !userData?.name) {
+    console.error("Invalid userData passed to NextAuth", userData);
+    return;
+  }
   const response = await signIn("credentials", {
     ...userData,
     redirect: false,
@@ -65,7 +69,7 @@ const Login = () => {
         successMessage( response?.data?.message || 'User Successfully Logged In')
         dispatch(setAuth(response?.data?.data));
         dispatch(setAuthUser(response?.data?.data?.user))
-       await authenticateWithNextAuth(response?.data?.data);
+       await authenticateWithNextAuth(response?.data?.data?.user);
       }
     } catch (error: any) {
       errorMessage(error?.response?.data?.message || 'Login failed, please try again.');
