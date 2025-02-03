@@ -41,7 +41,6 @@ const authenticateWithNextAuth = async (userData: any) => {
 };
 const Login = () => {
   const {status: sessionStatus } = useSession();
-
   const searchParams = useSearchParams();
   const router = useRouter()
   const dispatch = useDispatch()
