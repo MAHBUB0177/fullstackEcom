@@ -338,13 +338,13 @@ const ProductDetails = ({ params }: ProductParams) => {
           // setIsModalOpen={() => setIsModalOpen(true)}
           title={``}
           onCancel={_handleCancel}
-          width={"1000px"}>
+          width={"auto"}>
           <Form onFinish={onFinish} form={form}>
 
 
             <div>
 
-              <div className="mb-4 w-[500px]">
+              <div className="mb-4 ">
                 <p className="pb-2 font-semibold text-lg">SEND REVIEW</p>
                 <Form.Item
                   name="message"
@@ -356,7 +356,7 @@ const ProductDetails = ({ params }: ProductParams) => {
                   ]}
                 >
                   <TextArea
-                    className="rounded-md w-full"
+                    className="rounded-md w-full  md:w-[500px]"
                     rows={4}
                     placeholder="Details"
                     required

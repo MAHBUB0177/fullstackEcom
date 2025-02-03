@@ -19,7 +19,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({ item,details }) => {
   return (
 
     <div className="shadow-sm bg-primary rounded-md w-full h-auto border border-slate-100 mt-8 ">
-        <div className="bg-gray-300 h-[50px] w-full p-4 ">
+        <div className="bg-gray-300 h-[auto] w-full p-4 ">
             <p>Ratings & Reviews of {details} </p>
 
         </div>
