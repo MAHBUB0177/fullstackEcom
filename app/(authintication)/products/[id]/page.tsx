@@ -51,7 +51,6 @@ const ProductDetails = ({ params }: ProductParams) => {
   const [loading, setLoading] = useState('false')
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [agent, setAgent] = useState<Agent | null>(null);
-  console.log(agent,'agent==========')
   const [reviewlist, setReviewlist] = useState([])
   const getProductbyId = async (id: string | number) => {
     try {

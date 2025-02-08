@@ -67,9 +67,7 @@ const OrderCreate = () => {
       // Otherwise, add the full item object
       updatedSelectedItems.push(item);
     }
-
     setSelectedItems(updatedSelectedItems);
-
     // If all items are selected, check the "Select All" box
     if (updatedSelectedItems.length === cartList.length) {
       setSelectAll(true);
