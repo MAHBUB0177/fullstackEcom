@@ -175,7 +175,7 @@ const OrderInfoEdit: React.FC<OrderInfoEditProps> = ({ open, setOpen }) => {
         <div>
           <CommonModal
             open={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
+            // setIsModalOpen={setIsModalOpen}
             title={`EDIT`}
             onCancel={_handleCancel}
             width={"1000px"}
