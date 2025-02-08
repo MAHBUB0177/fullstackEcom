@@ -146,3 +146,8 @@ export const getReviewById=(productId:string | number)=>{
   const url=`/api/review/fetchById?productId=${productId}`
   return axiosInstance.get(url)
 }
+
+export const getReviewByUserId=(currentPageNumber: number, pageSize: number,)=>{
+  const url=`/api/review/fetchByUserId?page=${currentPageNumber}&limit=${pageSize}`
+  return axiosInstance.get(url)
+}

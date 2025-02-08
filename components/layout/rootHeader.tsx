@@ -129,7 +129,7 @@ const Rootheader = () => {
               alt="Picture of the author"
               className='h-[30px] w-[30px] cursor-pointer'
             />
-            <p className='text-xl text-red-500 font-bold pt-1'>ECOM</p>
+            <p className='text-xl text-red-500 font-bold pt-1'>TrendyCart</p>
           </div>
         </Link>
 
