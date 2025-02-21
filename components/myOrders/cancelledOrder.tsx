@@ -4,7 +4,7 @@ import { TbCoinTakaFilled, TbCurrencyTaka } from "react-icons/tb";
 import NodataFound from "../productFilter/nodataFound";
 import Pagination from "../common/paginate";
 
-// Define the type for an individual order item
+
 interface OrderItem {
   id: number; // Replace with the actual type of `id` if different
   productName: string;
