@@ -69,7 +69,8 @@ export interface UserType {
     const [form] = Form.useForm();
     const dispatch=useDispatch()
  
-  const[loading,setLoading]=useState('false')
+    const [loading, setLoading] = useState<boolean>(false);
+
     // State for user data
     const [userData, setUserData] = useState<UserType>({
       _id: '',
@@ -150,6 +151,13 @@ export interface UserType {
     // Handle form submission
     const onFinish = async () => {
       try {
+        Object.entries(userData).map(
+            ([key, value], i) => {
+              if (!value) {
+                delete userData[key]
+              }
+            }
+          )
         const res = await updateUserInfo(userData);
         message.success(res.data.message);
         _handleCancel();
@@ -195,6 +203,8 @@ export interface UserType {
         }));
       };
     
+
+            
     
       
     return (
@@ -217,6 +227,8 @@ export interface UserType {
                                 <Image className="h-32 w-32 rounded-full border-4 border-white mx-auto my-4" src={profile} alt="" />
 
                                 }
+
+
 
                         
                             </div>
@@ -320,7 +332,7 @@ export interface UserType {
                                 />
                             </div>
                             <div style={{ marginRight: "4px" }} >
-                                <CustomButton type={"submit"} btnName="submit" size={"w-28 text-sm py-2"} bg={'bg-bgsecondary'} disabled={loading === "true"}/>
+                                <CustomButton type={"submit"} btnName="submit" size={"w-28 text-sm py-2"} bg={'bg-bgsecondary'} />
                             </div>
                         </div>
                     </Form>
