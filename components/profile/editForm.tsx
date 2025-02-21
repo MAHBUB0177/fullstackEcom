@@ -25,7 +25,7 @@ const EditForm = ({ userData, handleInputChange,setLoading }: EditFormProps) => 
           formData.append("image", file);
           try {
             setLoading(true);
-            const response = await fetch("http://localhost:500/api/user/uploadProfile", {
+            const response = await fetch("https://node-express-hostapi.vercel.app/api/user/uploadProfile", {
               method: "POST",
               body: formData,
             });
