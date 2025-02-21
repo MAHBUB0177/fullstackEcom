@@ -107,6 +107,7 @@ export interface UserType {
   
     // State for agent data
     const [agentData, setAgentData] = useState<UserType | null>(null);  
+    
     // Fetch current user info
     const getCurrentUserInfo = async () => {
       try {
@@ -132,14 +133,14 @@ export interface UserType {
           _id: agentData._id,
           name: agentData.name,
           email: agentData.email,
-          image:''
+          image:agentData?.image
         });
   
         // Set form fields with the new values
         form.setFieldsValue({
           name: agentData.name,
           email: agentData.email,
-        //   image:agentData.image
+          image:''
         });
   
       
@@ -151,13 +152,13 @@ export interface UserType {
     // Handle form submission
     const onFinish = async () => {
       try {
-        Object.entries(userData).map(
-            ([key, value], i) => {
-              if (!value) {
-                delete userData[key]
-              }
-            }
-          )
+        // Object.entries(userData).map(
+        //     ([key, value], i) => {
+        //       if (!value) {
+        //         delete userData[key]
+        //       }
+        //     }
+        //   )
         const res = await updateUserInfo(userData);
         message.success(res.data.message);
         _handleCancel();
