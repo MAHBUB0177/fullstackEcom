@@ -80,6 +80,7 @@ const Rootheader = () => {
 
 
   const [searchTerm, setSearchTerm] = useState<string>('');
+  console.log(searchTerm,'searchTerm===')
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setSearchData(searchTerm));
@@ -89,7 +90,7 @@ const Rootheader = () => {
  
 
   useEffect(() => {
-    if (pathname === '/') {
+    if (pathname !== '/search') {
       dispatch(setSearchData(''));
       setSearchTerm(''); 
     }
