@@ -166,7 +166,14 @@ const ProductDetails = ({ params }: ProductParams) => {
   return (
     <div className="mx-4 pb-[50px] lg:mx-20 mt-8 ">
       <div className="  p-4 flex flex-col md:flex-row justify-between  md:gap-40 shadow-sm border border-slate-100 bg-primary rounded-md h-auto">
-        <div></div>
+        <div>
+        <img
+          src={product?.image[0]}
+          style={{ width: '350px', height: '350px', objectFit: 'contain' }}
+          className="rounded-lg"
+          alt={product?.productName}
+        />
+        </div>
         <div className="pt-8">
           <p className="text-2xl font-semibold ">{product?.description}</p>
           <div className="flex justify-start gap-4 pt-1">
