@@ -17,7 +17,6 @@ interface Review {
 }
 
 const Review: React.FC = () => {
-  // Set the type of `orderInfo` state as an array of `OrderItem`
   const [orderInfo, setOrderInfo] = useState<Review[]>([]);
   const [pageSize, setPageSize] = useState<number>(10);
   const [pageCount, setPageCount] = useState<number>(1);
